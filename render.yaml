@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: power-bi-server
+    runtime: image
+    image:
+      url: docker.io/h0pers/power-bi-server:latest
+    envVars:
+      - key: RECEIVER_PASSWORD
+        sync: false
+      - key: DEBUG
+        value: false
+    port: 8080
