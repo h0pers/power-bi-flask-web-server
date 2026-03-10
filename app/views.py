@@ -32,3 +32,13 @@ def receiver_view(headers, sensor_data):
 @blp.doc(summary="Get all sensor readings", description="Returns the full list of sensor readings collected since the server started.")
 def dashboard_view():
     return jsonify(sensor_readings)
+
+
+@blp.route("/clear", methods=["DELETE"])
+@blp.arguments(ReceiverHeadersSchema, location="headers")
+@blp.doc(summary="Clear all sensor readings", description="Deletes all stored sensor readings from memory. Requires password.")
+def clear_view(headers):
+    if headers.get("X_Password") != RECEIVER_PASSWORD:
+        abort(401)
+    sensor_readings.clear()
+    return jsonify({"status": "ok", "message": "All readings cleared"})
